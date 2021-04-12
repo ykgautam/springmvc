@@ -23,6 +23,19 @@ public class ContactController {
 		return "contact";
 	}
 
+	@RequestMapping(path = "/processform", method = RequestMethod.POST)
+	public String handleForm(@ModelAttribute User user, Model model) {
+		if (user.getUsername().isBlank() || user.getEmail().isBlank() || user.getPassword().isBlank()) {
+			return "redirect:/contact";
+		} else {
+			int createdUser = this.userService.createUser(user);
+			model.addAttribute("successHeadline", "form filled successfully");
+			model.addAttribute("msg", "created user with id " + createdUser);
+			System.out.println(user);
+			return "success";
+		}
+	}
+
 //	this is old way to fetch values from view to controller
 //	@RequestMapping(path = "/processform", method = RequestMethod.POST)
 //	public String handleForm(HttpServletRequest request) {
@@ -62,14 +75,5 @@ public class ContactController {
 	 * 
 	 * return "success"; }
 	 */
-
-	@RequestMapping(path = "/processform", method = RequestMethod.POST)
-	public String handleForm(@ModelAttribute User user, Model model) {
-		model.addAttribute("successHeadline", "form filled successfully");
-		int createdUser = this.userService.createUser(user);
-		model.addAttribute("msg", "created user with id " + createdUser);
-		System.out.println(user);
-		return "success";
-	}
 
 }
