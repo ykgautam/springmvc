@@ -8,8 +8,9 @@
 <title>Success</title>
 </head>
 <body>
-	
-	<h1> ${successHeadline} </h1>
+
+	<h1>${successHeadline}</h1>
+	<h2>${msg }</h2>
 	name: ${user.username}
 	<br> email: ${user.email}
 	<br> password: ${user.password}

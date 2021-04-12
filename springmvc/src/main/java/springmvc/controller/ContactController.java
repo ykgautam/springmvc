@@ -1,5 +1,6 @@
 package springmvc.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springmvc.model.User;
+import springmvc.service.UserService;
 
 @Controller
 public class ContactController {
+
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping("/contact")
 	public String showForm(Model m) {
@@ -61,6 +66,8 @@ public class ContactController {
 	@RequestMapping(path = "/processform", method = RequestMethod.POST)
 	public String handleForm(@ModelAttribute User user, Model model) {
 		model.addAttribute("successHeadline", "form filled successfully");
+		int createdUser = this.userService.createUser(user);
+		model.addAttribute("msg", "created user with id " + createdUser);
 		System.out.println(user);
 		return "success";
 	}
